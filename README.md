@@ -1,11 +1,12 @@
 # Título del trabajo
 
-Descripción breve del proyecto a realizar (2-3 frases).
+SENSORCERRADURA
+Un sensor conectado a un ordenador o placa que manda una señal a una cerradura 
 
 ## Integrantes del equipo
 
-Nombres, apellidos, y usuario GitHub de los integrantes del equipo.
+Uberto Martínez Rodríguez Usuario:umartinezr
 
 ## Objetivos del trabajo
 
-Lista de los objetivos que se persiguen con el trabajo propuesto.
+Hacer puertas electronicas lo mas baratas posibles

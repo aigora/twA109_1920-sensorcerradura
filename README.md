@@ -1,7 +1,7 @@
 # Título del trabajo
 
 SENSORCERRADURA
-Un sensor conectado a un ordenador o placa que manda una señal a una cerradura 
+Un sensor(lector de codigo de barra o vini) conectado a un ordenador o placa que manda una señal a una cerradura 
 
 ## Integrantes del equipo
 

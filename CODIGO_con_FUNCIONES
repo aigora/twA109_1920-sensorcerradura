@@ -4,7 +4,9 @@
 #include <windows.h>
 int Reservar(int F, int C);
 int comparador( int x, int y, int **M,int F, int C);
-void Imprime(int **I);
+void Imprime(int **I,int F,int C);
+int Aleatorio (int F,int C);
+int Cambiador (int **C,int n, int m,int ET,int SM);
 int main(int argc, char *argv[]) {
 int Alto,Ancho;
 int S=0;
@@ -14,18 +16,8 @@ scanf("%d %d",&Alto,&Ancho);
 int **Vieja,**Nueva;
 // Generacion de la Matriz aleatoria
 Nueva = Reservar(Alto,Ancho);
-Vieja = Reservar(Alto,Ancho);
-srand(time(NULL));
-for (i=0;i<Alto;i++){
-for(j=0;j<Ancho;j++){
- Vieja[i][j]=0+rand()%(1-0+1);
- if(Vieja[i][j]==1)
- printf("*");
- else{if(Vieja[i][j]==0)
- printf(" ");
- }}
- printf("\n");
-}
+Vieja = Aleatorio(Alto,Ancho);
+Imprime(Vieja,Alto,Ancho);
 printf("PULSE ENTER PARA EMPEZAR\n");
 system("pause");
 while(1){
@@ -35,19 +27,9 @@ for(j=0;j<Ancho;j++){
  S = comparador(i,j,Vieja,Alto,Ancho);
  Estado = Vieja[i][j];
 //Cambio a la nueva Matriz
-if( Estado==0&&S==3){
-Nueva[i][j]=1;
-}
-else{if(Estado==1&&(S<2||S>3))
-Nueva[i][j]=0;
-else Nueva[i][j]= Estado;
-} 
-if(Nueva[i][j] ==1){
-printf("*");}                          //No he conseguido hacer una Funcion para imprimir la Matriz Nueva Dinamica
-else 
-if(Nueva[i][j] ==0) printf(" ");
-}
-printf("\n");}
+Cambiador(Nueva,i,j,Estado,S);
+ }
+}Imprime(Nueva,Alto,Ancho);
 Vieja = Nueva;
 }
 return 0;
@@ -78,4 +60,31 @@ exit(1);
 }}
 return Matriz;
 }
-
+int Aleatorio (int F,int C){
+int **A,i,j;
+srand(time(NULL));
+A =Reservar (F,C);
+for (i=0;i<F;i++){
+for(j=0;j<C;j++){
+ A[i][j]=0+rand()%(1-0+1);}}
+ return A;
+}
+void Imprime(int **I,int F,int C){
+int i,j;
+for (i=0;i<F;i++){
+for(j=0;j<C;j++){ 
+ if(I[i][j]==1)
+ printf("*");
+ else{if(I[i][j]==0)
+ printf(" ");
+ }}
+printf("\n");}}
+int Cambiador (int **C,int n, int m,int ET,int SM){
+if( ET==0&&SM==3){
+C[n][m]=1;
+}
+else{if(ET==1&&(SM<2||SM>3))
+C[n][m]=0;
+else C[n][m]= ET;
+}
+return C;}

@@ -8,4 +8,4 @@ Uberto Martínez Rodríguez Usuario:umartinezr
 
 ## Objetivos del trabajo
 
-Aprender a programar de manera mas entretenida
+Aprender a programar de manera mas entretenida y hacer un juego para pasar el rato 

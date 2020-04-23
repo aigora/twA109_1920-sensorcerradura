@@ -13,7 +13,7 @@ int Cambiador (int **C,int n, int m,int ET,int SM);
 int main(int argc, char *argv[]) {
 int Alto,Ancho,N;
 int S=0,n=0;
-int i,j,Estado;
+int i,j,Estado,rp;
 printf("Introduzca cuantas unidades Altura y Anchura desea para el perimetro del experimento \n");
 scanf("%d %d",&Alto,&Ancho);
 printf("Introduzca el numero de iteraciones que desea probar\n");
@@ -26,7 +26,8 @@ Imprime(Vieja,Alto,Ancho);
 printf("PULSE ENTER PARA EMPEZAR\n");
 system("pause");
 fflush(stdin);
-while(n<N) {
+do{
+ while(n<N) {
      system("cls");
       for (i=0;i<Alto;i++){
        for(j=0;j<Ancho;j++){
@@ -39,6 +40,10 @@ while(n<N) {
      Vieja = Nueva;
      n++;
     }
+n=0;
+printf("Continuar con las iteraciones? 1:SI 2:NO \n");
+scanf("%d",&rp);}while (rp== 1);
+
 return 0;
 }
 

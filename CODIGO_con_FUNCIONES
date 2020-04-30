@@ -7,22 +7,33 @@ int Reservar(int F, int C);
 int comparador( int x, int y, int **M,int F, int C);
 void Imprime(int **I,int F,int C);
 int Aleatorio (int F,int C);
+void leer (int **I,int F,int C);
 int Cambiador (int **C,int n, int m,int ET,int SM);
 
 //Funcion Principal
 int main(int argc, char *argv[]) {
 int Alto,Ancho,N;
 int S=0,n=0;
-int i,j,Estado,rp;
+int i,j,Estado,rp,respuesta;
 printf("Introduzca cuantas unidades Altura y Anchura desea para el perimetro del experimento \n");
 scanf("%d %d",&Alto,&Ancho);
 printf("Introduzca el numero de iteraciones que desea probar\n");
 scanf("%d",&N);
 int **Vieja,**Nueva;
-// Generacion de la Matriz aleatoria
 Nueva = Reservar(Alto,Ancho);
+printf("¿Quiere una Matriz aleatoria o propia?\n");
+do{
+printf("Aleatoria:1 Propia:2");
+scanf("%d",&respuesta);
+if (respuesta==2){
+Vieja = Reservar(Alto,Ancho);
+printf("Introduzca la Matriz inicial 1=Encendido 0=Apagado\n");
+leer(Vieja,Alto,Ancho);
+Imprime(Vieja,Alto,Ancho);}
+else {if (respuesta == 1){
 Vieja = Aleatorio(Alto,Ancho);
 Imprime(Vieja,Alto,Ancho);
+}}}while(respuesta!= 1 && respuesta != 2);
 printf("PULSE ENTER PARA EMPEZAR\n");
 system("pause");
 fflush(stdin);
@@ -110,3 +121,9 @@ else{if(ET==1&&(SM<2||SM>3))
       C[n][m]=0;
        else C[n][m]= ET;}
 return C;}
+//lector de Matrices
+void leer(int **I,int F,int C){
+int i,j;
+for (i=0;i<F;i++){
+       for(j=0;j<C;j++){
+       	scanf("%d",&I[i][j]);}}}

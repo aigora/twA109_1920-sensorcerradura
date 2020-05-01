@@ -3,12 +3,12 @@
 #include <time.h>
 #include <windows.h>
 //Declaracion de Funciones
-int Reservar(int F, int C);
+int **Reservar(int F, int C);
 int comparador( int x, int y, int **M,int F, int C);
 void Imprime(int **I,int F,int C);
-int Aleatorio (int F,int C);
+int **Aleatorio (int F,int C);
 void leer (int **I,int F,int C);
-int Cambiador (int **C,int n, int m,int ET,int SM);
+int **Cambiador (int **C,int n, int m,int ET,int SM);
 
 //Funcion Principal
 int main(int argc, char *argv[]) {
@@ -23,22 +23,24 @@ int **Vieja,**Nueva;
 Nueva = Reservar(Alto,Ancho);
 printf("¿Quiere una Matriz aleatoria o propia?\n");
 do{
-printf("Aleatoria:1 Propia:2");
+printf("Aleatoria:1 Propia:2\n");
 scanf("%d",&respuesta);
 if (respuesta==2){
 Vieja = Reservar(Alto,Ancho);
 printf("Introduzca la Matriz inicial 1=Encendido 0=Apagado\n");
 leer(Vieja,Alto,Ancho);
+system("cls");
 Imprime(Vieja,Alto,Ancho);}
 else {if (respuesta == 1){
 Vieja = Aleatorio(Alto,Ancho);
 Imprime(Vieja,Alto,Ancho);
-}}}while(respuesta!= 1 && respuesta != 2);
+}}}while (respuesta != 1 && respuesta != 2);
 printf("PULSE ENTER PARA EMPEZAR\n");
 system("pause");
 fflush(stdin);
 do{
  while(n<N) {
+ 	Sleep(5);
      system("cls");
       for (i=0;i<Alto;i++){
        for(j=0;j<Ancho;j++){
@@ -74,7 +76,7 @@ return suma;
 
 
 //Funcion para reservar memoria
-int Reservar(int F, int C){
+int **Reservar(int F, int C){
 int **Matriz,i;
 Matriz = (int**)malloc(F*sizeof(int*));
    if (Matriz == NULL){printf("No se ha podido reservar espacio de meoria");
@@ -89,7 +91,7 @@ return Matriz;
 }
 
 //Generador de Matriz aleatoria
-int Aleatorio (int F,int C){
+int **Aleatorio (int F,int C){
 int **A,i,j;
 srand(time(NULL));
 A =Reservar (F,C);
@@ -114,7 +116,7 @@ for (i=0;i<F;i++){
  }
  
  //Funcion que cambia los valores de la matriz Nueva
-int Cambiador (int **C,int n, int m,int ET,int SM){
+int **Cambiador (int **C,int n, int m,int ET,int SM){
 if( ET==0&&SM==3){
     C[n][m]=1;}
 else{if(ET==1&&(SM<2||SM>3))

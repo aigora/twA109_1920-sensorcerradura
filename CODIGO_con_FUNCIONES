@@ -14,17 +14,25 @@ int **Cambiador (int **C,int n, int m,int ET,int SM);
 int main(int argc, char *argv[]) {
 int Alto,Ancho,N;
 int S=0,n=0;
-int i,j,Estado,rp,respuesta;
+int i,j,Estado,respuesta;
+char rp;
+rp ='A';
+do{
+system("cls");
+switch(rp){
+case 'A':
 printf("Introduzca cuantas unidades Altura y Anchura desea para el perimetro del experimento \n");
 scanf("%d %d",&Alto,&Ancho);
-printf("Introduzca el numero de iteraciones que desea probar\n");
-scanf("%d",&N);
 int **Vieja,**Nueva;
 Nueva = Reservar(Alto,Ancho);
+printf("Introduzca el numero de iteraciones\n");
+scanf("%d",&N);
+case 'C':
 printf("¿Quiere una Matriz aleatoria o propia?\n");
 do{
 printf("Aleatoria:1 Propia:2\n");
 scanf("%d",&respuesta);
+system("cls");
 if (respuesta==2){
 Vieja = Reservar(Alto,Ancho);
 printf("Introduzca la Matriz inicial 1=Encendido 0=Apagado\n");
@@ -35,10 +43,15 @@ else {if (respuesta == 1){
 Vieja = Aleatorio(Alto,Ancho);
 Imprime(Vieja,Alto,Ancho);
 }}}while (respuesta != 1 && respuesta != 2);
+case 'B':
+if (rp=='B'){
+printf("Introduzca el numero de iteraciones\n");
+scanf("%d",&N);
+Imprime(Vieja,Alto,Ancho);}
 printf("PULSE ENTER PARA EMPEZAR\n");
 system("pause");
+case 'D':
 fflush(stdin);
-do{
  while(n<N) {
  	Sleep(5);
      system("cls");
@@ -54,12 +67,12 @@ do{
      n++;
     }
 n=0;
-printf("Continuar con las iteraciones? 1:SI 2:NO \n");
-scanf("%d",&rp);}while (rp== 1);
-
+do{
+printf("MENU:\nCambiar todo->A \nCambiar numero de iteraciones->B \nCambiar Matriz->C \nRepetir->D \nSalir->F\n");
+scanf("%c",&rp);}while(rp!='A'&&rp!='B'&&rp!='C'&&rp!='D'&&rp!='F');}
+}while(rp!='F');
 return 0;
 }
-
 
 // Funcion de comparacion de elementos de la Matriz
 int comparador( int x, int y, int **M,int F, int C){

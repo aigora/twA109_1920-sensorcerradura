@@ -26,6 +26,7 @@ int S=0,n=0;
 int i,j,Estado,respuesta,respuesta1;
 char rp;
 int **Vieja,**Nueva;
+
 printf("Cargar partida:1\nEmpezar partida:2\n");
 scanf("%d",&respuesta1);
 if(respuesta1==1){
@@ -202,7 +203,8 @@ int **CargarP(char *filename,int *F,int *C){
     f = fopen(filename,"r");
     rewind(f);
     while(aux!='\n'){
-     aux = fgetc(f);
+     fscanf(f,"%c",&aux);
+     if(aux=='0'||aux=='1')
      contadorC++;
                 }
     rewind(f);
@@ -212,7 +214,7 @@ int **CargarP(char *filename,int *F,int *C){
       contadorF++;
                 }
     rewind(f);
-   *C=contadorC-1;
+   *C=contadorC;
    *F=contadorF;
     M = Reservar(*F,*C);
    for(i=0;i<*F;i++){

@@ -6,15 +6,15 @@
 
 
 //Declaracion de Funciones
-int **CargarP(char *filename,int *F,int *C);
-void GuardarP(char *filename, int **M,int F,int C);
-int **Reservar(int F, int C);
-int comparador( int x, int y, int **M,int F, int C);
-void Imprime(int **I,int F,int C);
-int **Aleatorio (int F,int C);
-void leer (int **I,int F,int C);
-int **Cambiador (int **C,int n, int m,int ET,int SM);
-char *Res(int C,int  F);
+int **CargarP(char *filename,int *F,int *C);//Funcion para cargar la partida
+void GuardarP(char *filename, int **M,int F,int C);//Funcion para guardar la partida
+int **Reservar(int F, int C);//Funcion para reservar memoria de matrices enteras
+int comparador( int x, int y, int **M,int F, int C);//Funcion para comparar los componentes de las matrices
+void Imprime(int **I,int F,int C);//Funcion para imprimir matrices
+int **Aleatorio (int F,int C);//Funcion para hacer una matriz aleatoria
+void leer (int **I,int F,int C);//Funcion para leer matrices propias
+int **Cambiador (int **C,int n, int m,int ET,int SM);//Funcion para cambiar los puntos dependiendo de sus vecinos
+char *Res(int C,int  F);//Funcion para reservar memoria para matrices char
 
 
 //Funcion Principal
@@ -30,7 +30,7 @@ int **Vieja,**Nueva;
 printf("Cargar partida:1\nEmpezar partida:2\n");
 scanf("%d",&respuesta1);
 if(respuesta1==1){
-Vieja=CargarP(filename,&Alto,&Ancho);
+Vieja=CargarP(filename,&Alto,&Ancho);//Cargamos la partida si se desea y esta hecha
 Nueva = Reservar(Alto,Ancho);
 rp ='B';
 }
@@ -39,13 +39,13 @@ rp ='A';}
 do{
 system("cls");
 switch(rp){
-case 'A':
+case 'A'://Se empieza una partida nueva
    printf("Introduzca cuantas unidades Altura y Anchura desea para el perimetro del experimento \n");
    scanf("%d %d",&Alto,&Ancho);
    Nueva = Reservar(Alto,Ancho);
    printf("Introduzca el numero de iteraciones\n");
    scanf("%d",&N);
-case 'C':
+case 'C'://Eleccion del tipo de matriz
    printf("¿Quiere una Matriz aleatoria o propia?\n");
   do{
     printf("Aleatoria:1 Propia:2\n");
@@ -62,14 +62,14 @@ case 'C':
      Imprime(Vieja,Alto,Ancho);
                              }
      }while (respuesta != 1 && respuesta != 2);
-case 'B':
+case 'B'://Se introduce el numero de iteraciones que se desean
    if (rp=='B'){
     printf("Introduzca el numero de iteraciones\n");
     scanf("%d",&N);
     Imprime(Vieja,Alto,Ancho);}
     printf("PULSE ENTER PARA EMPEZAR\n");
     system("pause");
-case 'D':
+case 'D'://Parte principal de la funcion main
    fflush(stdin);
    while(n<N) {
  	Sleep(5);
@@ -144,9 +144,9 @@ int i,j;
 for (i=0;i<F;i++){
    for(j=0;j<C;j++){ 
      if(I[i][j]==1)
-     printf("1 ");
+     printf("* ");
      else{if(I[i][j]==0)
-     printf("0 ");} 
+     printf("  ");} 
     }
  printf("\n");}
  }
@@ -167,9 +167,9 @@ int i,j;
 for (i=0;i<F;i++){
        for(j=0;j<C;j++){
        	scanf("%d",&I[i][j]);}}}
+       	
+       	
 //Funcion para guardar partida
-
-
 void GuardarP(char *filename, int **M,int F, int C){
 FILE *f;
 int i,j;
@@ -179,55 +179,46 @@ f = fopen(filename,"wt");
 if (f==NULL){
  printf("no se ha podido crear el fichero");}
 else{
+fprintf(f,"%d %d\n",F,C);
 for (i=0;i<F;i++){
   for (j=0;j<C;j++){
       if(M[i][j]==1){    
-        *(temp+(i*C+j))='1';}
+        *(temp+(i*C+j))='*';}
       else if(M[i][j]==0){
-         *(temp+(i*C+j))='0';}}
+         *(temp+(i*C+j))=' ';}}
                   }
 for (i=0;i<F;i++){                        
        for (j=0;j<C;j++)                           
-         fprintf (f,"%c",*(temp+(i*C+j)));   
+         fprintf (f,"%c ",*(temp+(i*C+j)));   
        fprintf (f,"\n");}                             
 fclose(f);}
 }
 
 //Funcion para cargar la partida me falla esta parte
 int **CargarP(char *filename,int *F,int *C){
-  FILE *f;
-  int contadorC=0,contadorF=0;
-  int i,j;
-  char aux,compara;
-  int **M;
-    f = fopen(filename,"r");
-    rewind(f);
-    while(aux!='\n'){
-     fscanf(f,"%c",&aux);
-     if(aux=='0'||aux=='1')
-     contadorC++;
-                }
-    rewind(f);
-    while(aux!=EOF){
-      aux = fgetc(f);
-      if(aux=='\n')
-      contadorF++;
-                }
-    rewind(f);
+FILE *f;
+int contadorC,contadorF;
+int i,j;
+char compara,intro,espacio;
+int **M;
+f = fopen(filename,"r");
+fscanf(f,"%d",&contadorF);
+fscanf(f,"%d",&contadorC);
+fscanf(f,"%c",&intro); 
    *C=contadorC;
    *F=contadorF;
     M = Reservar(*F,*C);
    for(i=0;i<*F;i++){
      for(j=0;j<*C;j++){
        fscanf(f,"%c",&compara);
-       if(compara=='1')
+       if(compara=='*')
        M[i][j]=1;
-       else if(compara=='0')
+       else if(compara==' ')
        M[i][j]=0;
-                  }}
+	   fscanf(f,"%c",&espacio);}
+   fscanf(f,"%c",&intro);}
 rewind(f);
 fclose(f);
-printf("%d %d \n",*F,*C);
 Imprime(M,*F,*C);
 system("pause");
 return M;

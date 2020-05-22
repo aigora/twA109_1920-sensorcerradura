@@ -3,7 +3,11 @@
 #include <time.h>
 #include<string.h>
 #include <windows.h>
+
+
 //Declaracion de Funciones
+int **CargarP(char *filename,int *F,int *C);
+void GuardarP(char *filename, int **M,int F,int C);
 int **Reservar(int F, int C);
 int comparador( int x, int y, int **M,int F, int C);
 void Imprime(int **I,int F,int C);
@@ -11,52 +15,22 @@ int **Aleatorio (int F,int C);
 void leer (int **I,int F,int C);
 int **Cambiador (int **C,int n, int m,int ET,int SM);
 char *Res(int C,int  F);
+
+
 //Funcion Principal
 int main(int argc, char *argv[]) {
-char *temp;
+//Declaracion de todas las variables
 char filename[]="Partida.txt";
-FILE *f;
-char aux,compara;
-int Alto=0,Ancho=0,N,contadorC=0,contadorF=0;
+int Alto=0,Ancho=0,N;
 int S=0,n=0;
 int i,j,Estado,respuesta,respuesta1;
 char rp;
 int **Vieja,**Nueva;
 printf("Cargar partida:1\nEmpezar partida:2\n");
 scanf("%d",&respuesta1);
-//Me falla la parte de cargar partida
 if(respuesta1==1){
-f = fopen(filename,"r");
-rewind(f);
-while(aux!='\n'){
-aux = fgetc(f);
-contadorC++;
-}
-rewind(f);
-while(aux!=EOF){
-aux = fgetc(f);
-if(aux=='\n')
-contadorF++;
-}
-rewind(f);
-Ancho=contadorC-1;
-Alto=contadorF;
+Vieja=CargarP(filename,&Alto,&Ancho);
 Nueva = Reservar(Alto,Ancho);
-Vieja = Reservar(Alto,Ancho);
-for(i=0;i<Alto;i++){
-for(j=0;j<Ancho;j++){
-fscanf(f,"%c",&compara);
-if(compara=='1')
-Vieja[i][j]=1;
-else if(compara=='0')
-Vieja[i][j]=0;
-compara='\0';
-}}
-rewind(f);
-fclose(f);
-printf("%d %d \n",Alto,Ancho);
-Imprime(Vieja,Alto,Ancho);
-system("pause");
 rp ='B';
 }
 else if(respuesta1==2){
@@ -65,38 +39,38 @@ do{
 system("cls");
 switch(rp){
 case 'A':
-printf("Introduzca cuantas unidades Altura y Anchura desea para el perimetro del experimento \n");
-scanf("%d %d",&Alto,&Ancho);
-temp=Res(Ancho,Alto);
-Nueva = Reservar(Alto,Ancho);
-printf("Introduzca el numero de iteraciones\n");
-scanf("%d",&N);
+   printf("Introduzca cuantas unidades Altura y Anchura desea para el perimetro del experimento \n");
+   scanf("%d %d",&Alto,&Ancho);
+   Nueva = Reservar(Alto,Ancho);
+   printf("Introduzca el numero de iteraciones\n");
+   scanf("%d",&N);
 case 'C':
-printf("¿Quiere una Matriz aleatoria o propia?\n");
-do{
-printf("Aleatoria:1 Propia:2\n");
-scanf("%d",&respuesta);
-system("cls");
-if (respuesta==2){
-Vieja = Reservar(Alto,Ancho);
-printf("Introduzca la Matriz inicial 1=Encendido 0=Apagado\n");
-leer(Vieja,Alto,Ancho);
-system("cls");
-Imprime(Vieja,Alto,Ancho);}
-else {if (respuesta == 1){
-Vieja = Aleatorio(Alto,Ancho);
-Imprime(Vieja,Alto,Ancho);
-}}}while (respuesta != 1 && respuesta != 2);
+   printf("¿Quiere una Matriz aleatoria o propia?\n");
+  do{
+    printf("Aleatoria:1 Propia:2\n");
+    scanf("%d",&respuesta);
+    system("cls");
+    if (respuesta==2){
+     Vieja = Reservar(Alto,Ancho);
+     printf("Introduzca la Matriz inicial 1=Encendido 0=Apagado\n");
+     leer(Vieja,Alto,Ancho);
+     system("cls");
+     Imprime(Vieja,Alto,Ancho);}
+    else if (respuesta == 1){
+     Vieja = Aleatorio(Alto,Ancho);
+     Imprime(Vieja,Alto,Ancho);
+                             }
+     }while (respuesta != 1 && respuesta != 2);
 case 'B':
-if (rp=='B'){
-printf("Introduzca el numero de iteraciones\n");
-scanf("%d",&N);
-Imprime(Vieja,Alto,Ancho);}
-printf("PULSE ENTER PARA EMPEZAR\n");
-system("pause");
+   if (rp=='B'){
+    printf("Introduzca el numero de iteraciones\n");
+    scanf("%d",&N);
+    Imprime(Vieja,Alto,Ancho);}
+    printf("PULSE ENTER PARA EMPEZAR\n");
+    system("pause");
 case 'D':
-fflush(stdin);
- while(n<N) {
+   fflush(stdin);
+   while(n<N) {
  	Sleep(5);
      system("cls");
       for (i=0;i<Alto;i++){
@@ -109,30 +83,15 @@ fflush(stdin);
      Imprime(Nueva,Alto,Ancho);
      Vieja = Nueva;
      n++;
-    }
+               }
 n=0;
 printf("Autoguardando espere un momento\n");
 Sleep(1000);
-f = fopen(filename,"wt");
-if (f==NULL){
- printf("no se ha podido crear el fichero");}
-else{
-for (i=0;i<Alto;i++){
-  for (j=0;j<Ancho;j++){
- if(Vieja[i][j]==1){    
-    *(temp+(i*Ancho+j))='1';}
-else if(Vieja[i][j]==0){
-    *(temp+(i*Ancho+j))='0';}}
-}
-for (i=0;i<Alto;i++){                        
-       for (j=0;j<Ancho;j++)                           
-         fprintf (f,"%c",*(temp+(i*Ancho+j)));   
-       fprintf (f,"\n");}                             
-fclose(f);}
+GuardarP(filename,Vieja,Alto,Ancho);
 do{
-printf("MENU:\nCambiar todo->A \nCambiar numero de iteraciones->B \nCambiar Matriz->C \nRepetir->D \nSalir->F\n");
-scanf("%c",&rp);}while(rp!='A'&&rp!='B'&&rp!='C'&&rp!='D'&&rp!='F');}
-}while(rp!='F');
+     printf("MENU:\nCambiar todo->A \nCambiar numero de iteraciones->B \nCambiar Matriz->C \nRepetir->D \nSalir->F\n");
+      scanf("%c",&rp);}while(rp!='A'&&rp!='B'&&rp!='C'&&rp!='D'&&rp!='F');}
+   }while(rp!='F');
 return 0;
 }
 
@@ -164,6 +123,7 @@ for(i=0;i<F;i++){
   }
 return Matriz;
 }
+
 
 //Generador de Matriz aleatoria
 int **Aleatorio (int F,int C){
@@ -199,13 +159,79 @@ else{if(ET==1&&(SM<2||SM>3))
        else C[n][m]= ET;}
 return C;}
  
+ 
 //lector de Matrices
 void leer(int **I,int F,int C){
 int i,j;
 for (i=0;i<F;i++){
        for(j=0;j<C;j++){
        	scanf("%d",&I[i][j]);}}}
+//Funcion para guardar partida
 
+
+void GuardarP(char *filename, int **M,int F, int C){
+FILE *f;
+int i,j;
+char *temp;
+temp=Res(C,F);
+f = fopen(filename,"wt");
+if (f==NULL){
+ printf("no se ha podido crear el fichero");}
+else{
+for (i=0;i<F;i++){
+  for (j=0;j<C;j++){
+      if(M[i][j]==1){    
+        *(temp+(i*C+j))='1';}
+      else if(M[i][j]==0){
+         *(temp+(i*C+j))='0';}}
+                  }
+for (i=0;i<F;i++){                        
+       for (j=0;j<C;j++)                           
+         fprintf (f,"%c",*(temp+(i*C+j)));   
+       fprintf (f,"\n");}                             
+fclose(f);}
+}
+
+//Funcion para cargar la partida me falla esta parte
+int **CargarP(char *filename,int *F,int *C){
+  FILE *f;
+  int contadorC=0,contadorF=0;
+  int i,j;
+  char aux,compara;
+  int **M;
+    f = fopen(filename,"r");
+    rewind(f);
+    while(aux!='\n'){
+     aux = fgetc(f);
+     contadorC++;
+                }
+    rewind(f);
+    while(aux!=EOF){
+      aux = fgetc(f);
+      if(aux=='\n')
+      contadorF++;
+                }
+    rewind(f);
+   *C=contadorC-1;
+   *F=contadorF;
+    M = Reservar(*F,*C);
+   for(i=0;i<*F;i++){
+     for(j=0;j<*C;j++){
+       fscanf(f,"%c",&compara);
+       if(compara=='1')
+       M[i][j]=1;
+       else if(compara=='0')
+       M[i][j]=0;
+                  }}
+rewind(f);
+fclose(f);
+printf("%d %d \n",*F,*C);
+Imprime(M,*F,*C);
+system("pause");
+return M;
+}
+
+//Funcion para la memoria de Matrices char
 char *Res(int C,int F){
 char *V;
 V = (char *) malloc (sizeof(char)*F*C);

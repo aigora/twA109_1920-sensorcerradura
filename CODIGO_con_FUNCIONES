@@ -90,7 +90,7 @@ printf("Autoguardando espere un momento\n");
 Sleep(1000);
 GuardarP(filename,Vieja,Alto,Ancho);
 do{
-     printf("MENU:\nCambiar todo->A \nCambiar numero de iteraciones->B \nCambiar Matriz->C \nRepetir->D \nSalir->F\n");
+     printf("MENU:\nCambiar todo->A \nCambiar numero de iteraciones->B \nCambiar Matriz->C \nContinuar iterando->D \nSalir->F\n");
       scanf("%c",&rp);}while(rp!='A'&&rp!='B'&&rp!='C'&&rp!='D'&&rp!='F');}
    }while(rp!='F');
 return 0;
